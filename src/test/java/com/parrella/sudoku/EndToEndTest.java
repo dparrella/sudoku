@@ -1,5 +1,6 @@
 package com.parrella.sudoku;
 
+import com.parrella.sudoku.exception.InvalidLocationException;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -23,7 +24,7 @@ public class EndToEndTest {
                { null, 6, null }
          };
 
-         board.setRegion(0, 0, region);
+         board.setRegion(0, region);
       }
 
       {
@@ -33,7 +34,7 @@ public class EndToEndTest {
                { null, null, null }
          };
 
-         board.setRegion(0, 1, region);
+         board.setRegion(1, region);
       }
 
       {
@@ -43,7 +44,7 @@ public class EndToEndTest {
                { null, 5, null }
          };
 
-         board.setRegion(0, 2, region);
+         board.setRegion(2, region);
       }
 
       {
@@ -53,7 +54,7 @@ public class EndToEndTest {
                { null, 4, null }
          };
 
-         board.setRegion(1, 0, region);
+         board.setRegion(3, region);
       }
 
       {
@@ -63,7 +64,7 @@ public class EndToEndTest {
                { null, 7, null }
          };
 
-         board.setRegion(1, 1, region);
+         board.setRegion(4, region);
       }
 
       {
@@ -73,7 +74,7 @@ public class EndToEndTest {
                { null, 6, null }
          };
 
-         board.setRegion(1, 2, region);
+         board.setRegion(5, region);
       }
 
       {
@@ -83,7 +84,7 @@ public class EndToEndTest {
                { null, null, null }
          };
 
-         board.setRegion(2, 0, region);
+         board.setRegion(6, region);
       }
 
       {
@@ -93,7 +94,7 @@ public class EndToEndTest {
                { null, null, null }
          };
 
-         board.setRegion(2, 1, region);
+         board.setRegion(7, region);
       }
 
       {
@@ -103,7 +104,7 @@ public class EndToEndTest {
                { null, null, null }
          };
 
-         board.setRegion(2, 2, region);
+         board.setRegion(8, region);
       }
    }
 
@@ -181,7 +182,7 @@ public class EndToEndTest {
 
    public void canQueryPositionOnBoardWhereUserAddedCorrectNumberIsPresent() {
       Cell userAddedCell = board.addDigit(1, 0, 1, 5);
-      assertThat(userAdded.getColor(), is(Color.GREEN));
+      assertThat(userAddedCell.getColor(), is(Color.GREEN));
 
       Cell retrievedCell = board.getCell(1, 0, 1);
       assertThat(retrievedCell, notNullValue());
