@@ -10,13 +10,24 @@ import static org.hamcrest.CoreMatchers.*;
 @Test
 public class EndToEndTest {
 
-   // Regions of 3x3 cells 1-9
+   // Regions of 3x3 cells 0-8
    private SudokuBoard board;
 
    @BeforeMethod
    public void doBeforeMethod() {
       board = new SudokuBoard();
 
+      /*
+       * Add data to the board by each 3x3 region.
+       * Regions are arranged like so:
+       *
+       * 0 1 2
+       * 3 4 5
+       * 6 7 8
+       *
+       * This data came from an example game:
+       * www.conceptispuzzles.com/?uri=puzzle/sudoku/rules
+       */
       {
          Integer region[][] = {
                { null, null, null },
@@ -130,9 +141,9 @@ public class EndToEndTest {
    }
 
    public void userCanAddCorrectDigitToBoard() {
-      Cell cell = board.addDigit(1, 0, 1, 5);
-      assertThat(cell.getColor(), is(Color.GREEN));
-      assertThat(cell.getDigit(), is(5));
+      Cell cell = board.addDigit(4, 1, 1, 6);
+      assertThat(cell.getColor(), is(Color.WHITE));
+      assertThat(cell.getDigit(), is(6));
    }
 
    public void userCanAddIncorrectDigitToBoardThatIsInTheSameRegion() {
@@ -141,16 +152,16 @@ public class EndToEndTest {
       assertThat(cell.getDigit(), is(6));
    }
 
-   public void userCanAddIncorrectDigitToBoardThatIsInTheSameColumn() {
-      Cell cell = board.addDigit(3, 0, 0, 4);
+   public void userCanAddIncorrectDigitToBoardThatIsInTheSameRow() {
+      Cell cell = board.addDigit(3, 0, 0, 9);
       assertThat(cell.getColor(), is(Color.RED));
-      assertThat(cell.getDigit(), is(4));
+      assertThat(cell.getDigit(), is(9));
    }
 
-   public void userCanAddIncorrectDigitToBoardThatIsInTheSameRow() {
-      Cell cell = board.addDigit(5, 1, 1, 7);
+   public void userCanAddIncorrectDigitToBoardThatIsInTheSameColumn() {
+      Cell cell = board.addDigit(6, 2, 2, 3);
       assertThat(cell.getColor(), is(Color.RED));
-      assertThat(cell.getDigit(), is(7));
+      assertThat(cell.getDigit(), is(3));
    }
 
    @Test(expectedExceptions = InvalidLocationException.class)
@@ -169,7 +180,7 @@ public class EndToEndTest {
    }
 
    public void canQueryPositionOnBoardWhereNoNumberIsPresent() {
-      Cell cell = board.getCell(7, 0, 1);
+      Cell cell = board.getCell(7, 0, 2);
       assertThat(cell.getDigit(), nullValue());
       assertThat(cell.getColor(), is(Color.BLACK));
    }
@@ -181,17 +192,18 @@ public class EndToEndTest {
    }
 
    public void canQueryPositionOnBoardWhereUserAddedCorrectNumberIsPresent() {
-      Cell userAddedCell = board.addDigit(1, 0, 1, 5);
-      assertThat(userAddedCell.getColor(), is(Color.GREEN));
+      Cell userAddedCell = board.addDigit(1, 0, 2, 1);
+      assertThat(userAddedCell.getColor(), is(Color.WHITE));
 
-      Cell retrievedCell = board.getCell(1, 0, 1);
+      Cell retrievedCell = board.getCell(1, 0, 2);
       assertThat(retrievedCell, notNullValue());
-      assertThat(retrievedCell.getDigit(), is(5));
-      assertThat(retrievedCell.getColor(), is(Color.GREEN));
+      assertThat(retrievedCell.getDigit(), is(1));
+      assertThat(retrievedCell.getColor(), is(Color.WHITE));
    }
 
    public void canQueryPositionOnBoardWhereUserAddedIncorrectNumberIsPresent() {
       Cell userAddedCell = board.addDigit(5, 1, 1, 7);
+      assertThat(userAddedCell.getColor(), is(Color.RED));
 
       Cell retrievedCell = board.getCell(5, 1, 1);
       assertThat(retrievedCell, notNullValue());

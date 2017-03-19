@@ -8,64 +8,33 @@ import java.util.Set;
  */
 class Region {
 
-   private static final int REGION_WIDTH = 3;
-   private static final int REGION_HEIGHT = 3;
-
-   private final Cell[][] cells;
+   private final int startX;
+   private final int startY;
    private final Set<Integer> seenDigits;
-   private final int offsetX;
-   private final int offsetY;
 
-   Region(Integer[][] cellData, int offsetX, int offsetY) {
-      this.cells = new Cell[REGION_HEIGHT][REGION_WIDTH];
-      this.seenDigits = new HashSet<Integer>();
-
-      this.offsetX = offsetX;
-      this.offsetY = offsetY;
-
-      insert(cellData);
+   Region(int startX, int startY) {
+      this.startX = startX;
+      this.startY = startY;
+      this.seenDigits = new HashSet<>();
    }
 
-   private void insert(Integer[][] cellData) {
-      for (int x = 0; x < 3; x++) {
-         for (int y = 0; y < 3; y++) {
-            Integer value = cellData[x][y];
-            Color color = value != null ? Color.GREEN : Color.BLACK;
-
-            cells[x][y] = new Cell(value, color);
-
-            if (value != null) {
-               seenDigits.add(value);
-            }
-         }
-      }
+   public int getStartX() {
+      return startX;
    }
 
-   Cell getCell(int x, int y) {
-      return cells[x][y];
+   public int getStartY() {
+      return startY;
    }
 
    boolean hasDigit(int digit) {
       return seenDigits.contains(digit);
    }
 
-   void setCell(int x, int y, Cell cell) {
-      Integer oldValue = cells[x][y].getDigit();
-
-      if (oldValue != cell.getDigit()) {
-         seenDigits.remove(oldValue);
-      } else if (cell.getDigit() != null) {
-         seenDigits.add(cell.getDigit());
-      }
-
-      cells[x][y] = cell;
+   void removeDigit(int digit) {
+      seenDigits.remove(digit);
    }
 
-   int getOffsetX() {
-      return offsetX;
-   }
-
-   int getOffsetY() {
-      return offsetY;
+   void sawDigit(int digit) {
+      seenDigits.add(digit);
    }
 }
