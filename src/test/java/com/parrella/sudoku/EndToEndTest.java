@@ -164,6 +164,17 @@ public class EndToEndTest {
       assertThat(cell.getDigit(), is(3));
    }
 
+   public void userCanOverwriteDigit() {
+      Cell cell = board.addDigit(0, 0, 0, 1);
+      assertThat(cell.getColor(), is(Color.WHITE));
+
+      cell = board.addDigit(0, 0, 0, 2);
+      assertThat(cell.getColor(), is(Color.WHITE));
+
+      Cell anotherCell = board.addDigit(3, 0, 1, 1);
+      assertThat(anotherCell.getColor(), is(Color.WHITE));
+   }
+
    @Test(expectedExceptions = InvalidLocationException.class)
    public void userCannotAddDigitToBoardAtInvalidRegion() {
       board.addDigit(-1, 1, 1, 7);

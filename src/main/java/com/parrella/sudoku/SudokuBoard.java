@@ -110,6 +110,8 @@ public class SudokuBoard {
       Cell cell = new Cell(digit, color);
 
       // Keep track of seen digits.
+      Cell oldCell = boardData[offsetY][offsetX];
+      removeDigit(region, offsetX, offsetY, oldCell.getDigit());
       trackDigit(region, offsetX, offsetY, digit);
 
       boardData[offsetY][offsetX] = cell;
@@ -125,6 +127,16 @@ public class SudokuBoard {
          return Color.RED;
       }
       return Color.WHITE;
+   }
+
+   private void removeDigit(Region region, int x, int y, Integer oldDigit) {
+      if (oldDigit == null) {
+         return;
+      }
+
+      region.removeDigit(oldDigit);
+      columnDigits.get(x).remove(oldDigit);
+      rowDigits.get(y).remove(oldDigit);
    }
 
    private void trackDigit(Region region, int x, int y, int digit) {
